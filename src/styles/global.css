@@ -22,3 +22,10 @@
 [data-theme="dark"] .astro-code,[data-theme="dark"] .astro-code span{color:var(--shiki-dark)!important}
 .prose .code-block pre:focus-visible{outline:2px solid var(--accent);outline-offset:-3px}
 @media(max-width:600px){.prose pre{font-size:12px}.code-copy{min-height:44px}}
+
+.technical-reading .book-content{max-width:860px;column-count:1}
+.technical-reading .book-viewport{padding-bottom:72px}
+.technical-reading .prose{font-family:var(--sans);font-size:17px;line-height:1.95}
+.technical-reading .prose img{max-height:none}
+.technical-reading .prose pre,.technical-reading .prose .code-block pre{max-height:none}
+@media(max-width:600px){.technical-reading .prose{font-size:16px}.technical-reading .book-viewport{padding-bottom:48px}}

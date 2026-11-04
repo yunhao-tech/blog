@@ -6,6 +6,7 @@ export async function getStaticPaths() {
   return (await getCollection('posts', ({ data }) => !data.draft)).map(post => ({ params: { id: post.id }, props: { post } }));
 }
 const { post } = Astro.props;
+const isTech = post.data.category === '技术';
 const { Content } = await render(post);
 const base = import.meta.env.BASE_URL;
 const listUrl = `${base}${post.data.category === '技术' ? 'tech' : 'essays'}/`;
@@ -17,7 +18,7 @@ const nextPostUrl = nextPost ? `${base}read/${nextPost.id}/` : undefined;
 const date = post.data.date.toISOString().slice(0,10).replaceAll('-', '.');
 ---
 <Layout title={`${post.data.title} · Unehao 随笔`} description={post.data.description} reader>
-  <div class="reading-shell">
+  <div class:list={['reading-shell', { 'technical-reading': isTech }]}>
     <header class="reading-header"><a class="back-link" href={listUrl}><span aria-hidden="true">←</span> 返回目录</a><a class="reader-brand" href={base}>Unehao 随笔</a><ThemeToggle /></header>
     <main id="main" class="book-viewport" aria-label="文章阅读区">
       <article id="book-content" class="book-content">
@@ -26,12 +27,12 @@ const date = post.data.date.toISOString().slice(0,10).replaceAll('-', '.');
         <footer class="article-end"><span>· · ·</span><p><a href={listUrl}>回到目录 →</a></p></footer>
       </article>
     </main>
-    <footer class="reading-footer" id="reading-controls" hidden>
+    {!isTech && <footer class="reading-footer" id="reading-controls" hidden>
       <button id="prev-page" aria-label="上一组双页"><span aria-hidden="true">←</span> 上一页</button>
       <div class="page-center"><span id="page-status" role="status" aria-live="polite" aria-atomic="true">1 / 1</span></div>
       <button id="next-page" aria-label="下一组双页" data-next-post={nextPostUrl} data-list-url={listUrl}>下一页 <span aria-hidden="true">→</span></button>
-    </footer>
-    <div class="reading-progress" aria-hidden="true"><span id="progress-fill"></span></div>
+    </footer>}
+    {!isTech && <div class="reading-progress" aria-hidden="true"><span id="progress-fill"></span></div>}
   </div>
   <script>import '../../scripts/code-blocks'; import '../../scripts/reader';</script>
 </Layout>

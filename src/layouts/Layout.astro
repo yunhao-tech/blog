@@ -1,0 +1,35 @@
+---
+import '@fontsource/noto-serif-sc/400.css';
+import '@fontsource/noto-serif-sc/500.css';
+import '@fontsource/noto-sans-sc/400.css';
+import '@fontsource/noto-sans-sc/500.css';
+import '@fontsource/jetbrains-mono/400.css';
+import '../styles/global.css';
+interface Props { title?: string; description?: string; reader?: boolean }
+const { title = 'Unehao 随笔', description = 'Unehao 的个人博客，记录技术、阅读与日常思考。', reader = false } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const canonical = process.env.BLOG_SITE ? new URL(Astro.url.pathname, process.env.BLOG_SITE) : undefined;
+---
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <link rel="icon" href={`${base}unehao-u-smile.png`} type="image/png" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f6f3eb" />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <script is:inline>
+      (() => {
+        let saved; try { saved = localStorage.getItem('unehao-theme'); } catch {}
+        document.documentElement.dataset.theme = saved === 'dark' || saved === 'light'
+          ? saved : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      })();
+    </script>
+    <title>{title}</title>
+  </head>
+  <body class:list={{ 'reader-body': reader }}>
+    <a class="skip-link" href="#main">跳到正文</a>
+    <slot />
+  </body>
+</html>

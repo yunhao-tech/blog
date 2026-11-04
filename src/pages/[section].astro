@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import PostList from '../components/PostList.astro';
+export function getStaticPaths() {
+  return [{params:{section:'essays'},props:{heading:'随笔'}},{params:{section:'tech'},props:{heading:'技术'}},{params:{section:'archive'},props:{heading:'Archive 时间线'}}];
+}
+const { heading } = Astro.props;
+const section = Astro.params.section;
+const all = (await getCollection('posts',({data})=>!data.draft)).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf());
+const posts = section === 'archive' ? all : all.filter(p => section === 'tech' ? p.data.category === '技术' : p.data.category !== '技术');
+const years = [...new Set(posts.map(p => p.data.date.getUTCFullYear()))];
+const base = import.meta.env.BASE_URL;
+---
+<Layout title={`${heading} · Unehao 随笔`}>
+  <main id="main" class="index-shell">
+    <SiteHeader active={section} />
+    <div class="section-page-heading"><h1>{heading}</h1><span>{posts.length} 篇</span></div>
+    {section === 'archive' ? <div class="timeline">{years.map(year => <section class="timeline-year"><h2>{year}</h2><div>{posts.filter(p=>p.data.date.getUTCFullYear()===year).map(post => <a class="timeline-entry" href={`${base}read/${post.id}/`}><time datetime={post.data.date.toISOString()}>{post.data.date.toISOString().slice(5,10).replace('-','.')}</time><span>{post.data.title}</span><span class="timeline-category">{post.data.category}</span></a>)}</div></section>)}{posts.length===0 && <p class="empty-note">暂无文章。</p>}</div> : <PostList posts={posts} />}
+  </main>
+</Layout>

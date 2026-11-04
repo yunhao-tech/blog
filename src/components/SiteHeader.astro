@@ -1,0 +1,11 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+interface Props { active?: string }
+const { active } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const links = [{id:'essays',name:'Blog'},{id:'tech',name:'Tech'},{id:'archive',name:'Archive'}];
+---
+<header class="site-header">
+  <a class="wordmark" href={base} aria-label="Unehao 随笔"><img class="brand-logo" src={`${base}unehao-u-smile.png`} width="42" height="42" alt="" aria-hidden="true" /> nehao 随笔</a>
+  <div class="header-actions"><nav class="site-nav" aria-label="主导航">{links.map(link => <a href={`${base}${link.id}/`} aria-current={active === link.id ? 'page' : undefined}>{link.name}</a>)}</nav><ThemeToggle /></div>
+</header>

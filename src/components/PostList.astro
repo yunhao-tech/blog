@@ -1,0 +1,14 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props { posts: CollectionEntry<'posts'>[] }
+const { posts } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+<div class="contents">
+  {posts.map((post, i) => <a class="entry" href={`${base}read/${post.id}/`}>
+    <span class="entry-number">{String(i+1).padStart(2,'0')}</span>
+    <div class="entry-copy"><div class="entry-meta"><time datetime={post.data.date.toISOString()}>{post.data.date.toISOString().slice(0,10).replaceAll('-', '.')}</time></div><h3>{post.data.title}</h3><p>{post.data.description}</p></div>
+    <span class="entry-arrow" aria-hidden="true">↗</span>
+  </a>)}
+  {posts.length === 0 && <p class="empty-note">暂无文章。</p>}
+</div>

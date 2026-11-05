@@ -25,6 +25,11 @@
 
 body:not(.is-paginated) .technical-reading .book-content{max-width:860px;column-count:1}
 .reader-actions{justify-self:end;display:flex;align-items:center;gap:12px}
+.profile-links{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.profile-links .profile-link{margin-top:0}
+.site-nav{font-size:15px}
+.section-page-heading>span{font-size:14px}
+@media(max-width:720px){.site-nav{font-size:13px}.section-page-heading>span{font-size:13px}}
 /* Keep the layout width unchanged when pagination hides the scrollbar. */
 html{overflow-y:auto;scrollbar-gutter:stable}
 html:has(body.is-paginated){overflow:hidden}

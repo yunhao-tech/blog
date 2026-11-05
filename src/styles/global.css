@@ -23,9 +23,19 @@
 .prose .code-block pre:focus-visible{outline:2px solid var(--accent);outline-offset:-3px}
 @media(max-width:600px){.prose pre{font-size:12px}.code-copy{min-height:44px}}
 
-.technical-reading .book-content{max-width:860px;column-count:1}
-.technical-reading .book-viewport{padding-bottom:72px}
+body:not(.is-paginated) .technical-reading .book-content{max-width:860px;column-count:1}
+.reader-actions{justify-self:end;display:flex;align-items:center;gap:12px}
+/* Keep the layout width unchanged when pagination hides the scrollbar. */
+html{overflow-y:auto;scrollbar-gutter:stable}
+html:has(body.is-paginated){overflow:hidden}
+.layout-switch{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px;font:12px/1.6 var(--sans)}
+.layout-switch[hidden]{display:none}
+.layout-switch button{border:0;background:transparent;border-radius:999px;padding:8px 13px;min-height:38px;cursor:pointer;white-space:nowrap;color:var(--muted)}
+.layout-switch button[aria-pressed="true"]{background:var(--hover);color:var(--ink)}
+.layout-switch button:hover{color:var(--ink)}
+@media(max-width:900px){.reading-shell:has(.layout-switch) .reading-header{height:auto;min-height:76px;grid-template-columns:1fr auto;padding:12px 0;row-gap:10px}.reading-shell:has(.layout-switch) .reader-actions{grid-column:1/-1;justify-self:end}.layout-switch button{min-height:44px}.reader-actions{gap:8px}}
+body:not(.is-paginated) .technical-reading .book-viewport{padding-bottom:72px}
 .technical-reading .prose{font-family:var(--sans);font-size:17px;line-height:1.95}
-.technical-reading .prose img{max-height:none}
-.technical-reading .prose pre,.technical-reading .prose .code-block pre{max-height:none}
-@media(max-width:600px){.technical-reading .prose{font-size:16px}.technical-reading .book-viewport{padding-bottom:48px}}
+body:not(.is-paginated) .technical-reading .prose img{max-height:none}
+body:not(.is-paginated) .technical-reading .prose pre,body:not(.is-paginated) .technical-reading .prose .code-block pre{max-height:none}
+@media(max-width:600px){.technical-reading .prose{font-size:16px}body:not(.is-paginated) .technical-reading .book-viewport{padding-bottom:48px}}

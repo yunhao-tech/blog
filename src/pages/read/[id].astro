@@ -17,9 +17,19 @@ const nextPost = siblings[siblings.findIndex(p => p.id === post.id) + 1];
 const nextPostUrl = nextPost ? `${base}read/${nextPost.id}/` : undefined;
 const date = post.data.date.toISOString().slice(0,10).replaceAll('-', '.');
 ---
-<Layout title={`${post.data.title} · Unehao 随笔`} description={post.data.description} reader>
+<Layout title={`${post.data.title} · Unehao 随笔`} description={post.data.description} reader readingType={isTech ? 'tech' : 'essays'}>
   <div class:list={['reading-shell', { 'technical-reading': isTech }]}>
-    <header class="reading-header"><a class="back-link" href={listUrl}><span aria-hidden="true">←</span> 返回目录</a><a class="reader-brand" href={base}>Unehao 随笔</a><ThemeToggle /></header>
+    <header class="reading-header">
+      <a class="back-link" href={listUrl}><span aria-hidden="true">←</span> 返回目录</a>
+      <a class="reader-brand" href={base}>Unehao 随笔</a>
+      <div class="reader-actions">
+        <div class="layout-switch" role="group" aria-label="文章排版" hidden>
+          <button type="button" data-layout="single" aria-pressed={isTech ? 'true' : 'false'}>单栏</button>
+          <button type="button" data-layout="double" aria-pressed={isTech ? 'false' : 'true'}>双栏</button>
+        </div>
+        <ThemeToggle />
+      </div>
+    </header>
     <main id="main" class="book-viewport" aria-label="文章阅读区">
       <article id="book-content" class="book-content">
         <header class="article-header"><p class="article-meta"><time datetime={post.data.date.toISOString()}>{date}</time></p><h1>{post.data.title}</h1>{post.data.sample && <p class="sample-notice">示例文章 · 用于展示排版，非个人经历</p>}<p class="article-lead">{post.data.description}</p><div class="title-rule" aria-hidden="true"></div></header>
@@ -27,12 +37,12 @@ const date = post.data.date.toISOString().slice(0,10).replaceAll('-', '.');
         <footer class="article-end"><span>· · ·</span><p><a href={listUrl}>回到目录 →</a></p></footer>
       </article>
     </main>
-    {!isTech && <footer class="reading-footer" id="reading-controls" hidden>
+    <footer class="reading-footer" id="reading-controls" hidden>
       <button id="prev-page" aria-label="上一组双页"><span aria-hidden="true">←</span> 上一页</button>
       <div class="page-center"><span id="page-status" role="status" aria-live="polite" aria-atomic="true">1 / 1</span></div>
       <button id="next-page" aria-label="下一组双页" data-next-post={nextPostUrl} data-list-url={listUrl}>下一页 <span aria-hidden="true">→</span></button>
-    </footer>}
-    {!isTech && <div class="reading-progress" aria-hidden="true"><span id="progress-fill"></span></div>}
+    </footer>
+    <div class="reading-progress" aria-hidden="true"><span id="progress-fill"></span></div>
   </div>
   <script>import '../../scripts/code-blocks'; import '../../scripts/reader';</script>
 </Layout>

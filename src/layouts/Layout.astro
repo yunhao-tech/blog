@@ -5,13 +5,13 @@ import '@fontsource/noto-sans-sc/400.css';
 import '@fontsource/noto-sans-sc/500.css';
 import '@fontsource/jetbrains-mono/400.css';
 import '../styles/global.css';
-interface Props { title?: string; description?: string; reader?: boolean }
-const { title = 'Unehao 随笔', description = 'Unehao 的个人博客，记录技术、阅读与日常思考。', reader = false } = Astro.props;
+interface Props { title?: string; description?: string; reader?: boolean; readingType?: 'essays' | 'tech' }
+const { title = 'Unehao 随笔', description = 'Unehao 的个人博客，记录技术、阅读与日常思考。', reader = false, readingType = 'essays' } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const canonical = process.env.BLOG_SITE ? new URL(Astro.url.pathname, process.env.BLOG_SITE) : undefined;
 ---
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-reading-type={readingType}>
   <head>
     <link rel="icon" href={`${base}unehao-u-smile.png`} type="image/png" />
     <meta charset="UTF-8" />
@@ -19,9 +19,35 @@ const canonical = process.env.BLOG_SITE ? new URL(Astro.url.pathname, process.en
     <meta name="description" content={description} />
     <meta name="theme-color" content="#f6f3eb" />
     {canonical && <link rel="canonical" href={canonical} />}
+    <style is:inline>
+      html.fonts-pending body { visibility: hidden; }
+    </style>
     <script is:inline>
       (() => {
+        const root = document.documentElement;
+        root.classList.add('fonts-pending');
+        const reveal = () => root.classList.remove('fonts-pending');
+        // Never leave a blank page when fonts fail or the network is slow.
+        const timeout = setTimeout(reveal, 2500);
+        window.unehaoFontsReady = new Promise(resolve => {
+          document.addEventListener('DOMContentLoaded', () => {
+            // Flush layout so FontFaceSet includes fonts used by this page.
+            void document.body.offsetHeight;
+            const ready = document.fonts ? document.fonts.ready : Promise.resolve();
+            ready.catch(() => {}).then(() => {
+              resolve();
+              requestAnimationFrame(() => requestAnimationFrame(() => {
+                clearTimeout(timeout);
+                reveal();
+              }));
+            });
+          }, { once: true });
+        });
         let saved; try { saved = localStorage.getItem('unehao-theme'); } catch {}
+        const type = root.dataset.readingType;
+        let layout; try { layout = localStorage.getItem(`unehao-reading-layout-${type}`); } catch {}
+        root.dataset.readingLayout = layout === 'single' || layout === 'double'
+          ? layout : (type === 'tech' ? 'single' : 'double');
         document.documentElement.dataset.theme = saved === 'dark' || saved === 'light'
           ? saved : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
       })();

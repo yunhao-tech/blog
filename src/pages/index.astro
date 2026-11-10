@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
+import VisitorFooter from '../components/VisitorFooter.astro';
 ---
 <Layout>
   <main id="main" class="index-shell">
@@ -17,5 +18,6 @@ import SiteHeader from '../components/SiteHeader.astro';
         <a class="profile-link" href="https://juejin.cn/user/4263257823785808" target="_blank" rel="noopener noreferrer" aria-label="掘金个人主页（新窗口打开）">掘金 <span aria-hidden="true">↗</span></a>
       </nav>
     </section>
+    <VisitorFooter mode="both" />
   </main>
 </Layout>

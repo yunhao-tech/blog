@@ -1,0 +1,21 @@
+name = "blog-visitors"
+main = "src/index.js"
+compatibility_date = "2025-04-01"
+
+# 只有一个 Durable Object 实例在数数，保证「先查再写」不会打架。
+[[durable_objects.bindings]]
+name = "VISITS"
+class_name = "VisitorCounter"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["VisitorCounter"]
+
+[observability]
+enabled = true
+
+[vars]
+# 允许调用统计接口的来源，逗号分隔；保持和 GitHub Pages 的域名一致。
+ALLOWED_ORIGINS = "https://yunhao-tech.github.io"
+# 「今天」按这个时区切分。
+VISITOR_TZ = "Asia/Shanghai"

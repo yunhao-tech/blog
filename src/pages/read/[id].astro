@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import ThemeToggle from '../../components/ThemeToggle.astro';
+import VisitorCount from '../../components/VisitorCount.astro';
 export async function getStaticPaths() {
   return (await getCollection('posts', ({ data }) => !data.draft)).map(post => ({ params: { id: post.id }, props: { post } }));
 }
@@ -34,7 +35,7 @@ const date = post.data.date.toISOString().slice(0,10).replaceAll('-', '.');
       <article id="book-content" class="book-content">
         <header class="article-header"><p class="article-meta"><time datetime={post.data.date.toISOString()}>{date}</time></p><h1>{post.data.title}</h1>{post.data.sample && <p class="sample-notice">示例文章 · 用于展示排版，非个人经历</p>}<p class="article-lead">{post.data.description}</p><div class="title-rule" aria-hidden="true"></div></header>
         <div class="prose"><Content /></div>
-        <footer class="article-end"><span>· · ·</span><p><a href={listUrl}>回到目录 →</a></p></footer>
+        <footer class="article-end"><span>· · ·</span><p><a href={listUrl}>回到目录 →</a></p><VisitorCount class="article-end-visitors" /></footer>
       </article>
     </main>
     <footer class="reading-footer" id="reading-controls" hidden>

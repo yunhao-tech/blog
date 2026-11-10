@@ -1,0 +1,32 @@
+---
+import { ANALYTICS_ENDPOINT, ANALYTICS_ENABLED } from '../config/analytics';
+interface Props {
+  /** page: 只显示本页人数；both: 本页 + 全站 */
+  mode?: 'page' | 'both';
+  class?: string;
+}
+const { mode = 'page', class: className } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+{ANALYTICS_ENABLED && (
+  <p
+    class:list={['visitor-count', className]}
+    data-visitor
+    data-endpoint={ANALYTICS_ENDPOINT}
+    data-base={base}
+    data-pending
+    aria-hidden="true"
+  >
+    <span class="visitor-count-label">本页</span>
+    <span class="visitor-count-value" data-visitor-page>—</span>
+    <span class="visitor-count-unit">位访客</span>
+    {mode === 'both' && (
+      <>
+        <span class="visitor-count-sep" aria-hidden="true">·</span>
+        <span class="visitor-count-label">全站</span>
+        <span class="visitor-count-value" data-visitor-site>—</span>
+        <span class="visitor-count-unit">位访客</span>
+      </>
+    )}
+  </p>
+)}

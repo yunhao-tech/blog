@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import PostList from '../components/PostList.astro';
+import VisitorFooter from '../components/VisitorFooter.astro';
 export function getStaticPaths() {
   return [{params:{section:'essays'},props:{heading:'随笔'}},{params:{section:'tech'},props:{heading:'技术'}},{params:{section:'archive'},props:{heading:'Archive 时间线'}}];
 }
@@ -18,5 +19,6 @@ const base = import.meta.env.BASE_URL;
     <SiteHeader active={section} />
     <div class="section-page-heading"><h1>{heading}</h1><span>{posts.length} 篇</span></div>
     {section === 'archive' ? <div class="timeline">{years.map(year => <section class="timeline-year"><h2>{year}</h2><div>{posts.filter(p=>p.data.date.getUTCFullYear()===year).map(post => <a class="timeline-entry" href={`${base}read/${post.id}/`}><time datetime={post.data.date.toISOString()}>{post.data.date.toISOString().slice(5,10).replace('-','.')}</time><span>{post.data.title}</span><span class="timeline-category">{post.data.category}</span></a>)}</div></section>)}{posts.length===0 && <p class="empty-note">暂无文章。</p>}</div> : <PostList posts={posts} />}
+    <VisitorFooter />
   </main>
 </Layout>

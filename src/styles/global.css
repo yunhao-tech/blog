@@ -44,3 +44,14 @@ body:not(.is-paginated) .technical-reading .book-viewport{padding-bottom:72px}
 body:not(.is-paginated) .technical-reading .prose img{max-height:none}
 body:not(.is-paginated) .technical-reading .prose pre,body:not(.is-paginated) .technical-reading .prose .code-block pre{max-height:none}
 @media(max-width:600px){.technical-reading .prose{font-size:16px}body:not(.is-paginated) .technical-reading .book-viewport{padding-bottom:48px}}
+
+/* 访客人数 */
+.visitor-count{display:flex;flex-wrap:wrap;align-items:baseline;gap:7px;margin:0;font:11px/1.8 var(--sans);color:var(--muted);letter-spacing:.06em}
+.visitor-count[data-pending]{visibility:hidden}
+.page-footer:not(:has(.visitor-count)){display:none}
+.visitor-count-label{white-space:nowrap}
+.visitor-count-value{font-variant-numeric:tabular-nums;color:var(--ink);letter-spacing:.02em}
+.visitor-count-sep{color:var(--line)}
+.page-footer{display:flex;justify-content:flex-end;margin-top:64px;padding-top:24px;border-top:1px solid var(--line)}
+.article-end .visitor-count{justify-content:center;margin-top:16px}
+@media(max-width:600px){.page-footer{justify-content:flex-start;margin-top:48px;padding-top:20px}}

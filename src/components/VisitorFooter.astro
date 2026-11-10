@@ -1,0 +1,14 @@
+---
+import VisitorCount from './VisitorCount.astro';
+import { ANALYTICS_ENABLED } from '../config/analytics';
+interface Props {
+  /** page: 只显示本页人数；both: 本页 + 全站 */
+  mode?: 'page' | 'both';
+}
+const { mode = 'page' } = Astro.props;
+---
+{ANALYTICS_ENABLED && (
+  <footer class="page-footer">
+    <VisitorCount mode={mode} />
+  </footer>
+)}

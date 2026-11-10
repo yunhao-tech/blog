@@ -57,5 +57,6 @@ const canonical = process.env.BLOG_SITE ? new URL(Astro.url.pathname, process.en
   <body class:list={{ 'reader-body': reader }}>
     <a class="skip-link" href="#main">跳到正文</a>
     <slot />
+    <script>import '../scripts/visitors';</script>
   </body>
 </html>

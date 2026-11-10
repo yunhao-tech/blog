@@ -35,6 +35,13 @@ jobs:
           else
             echo "BLOG_BASE=/${REPO}/" >> "$GITHUB_ENV"
           fi
+      - name: Set visitor counter endpoint
+        env:
+          ANALYTICS_ENDPOINT: ${{ vars.ANALYTICS_ENDPOINT }}
+        run: |
+          if [ -n "$ANALYTICS_ENDPOINT" ]; then
+            echo "PUBLIC_ANALYTICS_ENDPOINT=$ANALYTICS_ENDPOINT" >> "$GITHUB_ENV"
+          fi
       - run: pnpm build
       - uses: actions/upload-pages-artifact@v3
         with:

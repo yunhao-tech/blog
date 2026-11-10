@@ -1,12 +1,14 @@
 ---
 import { ANALYTICS_ENDPOINT, ANALYTICS_ENABLED } from '../config/analytics';
 interface Props {
-  /** page: 只显示本页人数；both: 本页 + 全站 */
-  mode?: 'page' | 'both';
+  /** page: 只显示本页人数；site: 只显示全站人数；both: 本页 + 全站 */
+  mode?: 'page' | 'site' | 'both';
   class?: string;
 }
 const { mode = 'page', class: className } = Astro.props;
 const base = import.meta.env.BASE_URL;
+const showPage = mode === 'page' || mode === 'both';
+const showSite = mode === 'site' || mode === 'both';
 ---
 {ANALYTICS_ENABLED && (
   <p
@@ -17,12 +19,16 @@ const base = import.meta.env.BASE_URL;
     data-pending
     aria-hidden="true"
   >
-    <span class="visitor-count-frag">有</span>
-    <span class="visitor-count-value" data-visitor-page>—</span>
-    <span class="visitor-count-frag">人来过</span>
-    {mode === 'both' && (
+    {showPage && (
       <>
-        <span class="visitor-count-sep" aria-hidden="true">·</span>
+        <span class="visitor-count-frag">有</span>
+        <span class="visitor-count-value" data-visitor-page>—</span>
+        <span class="visitor-count-frag">人来过</span>
+      </>
+    )}
+    {showPage && showSite && <span class="visitor-count-sep" aria-hidden="true">·</span>}
+    {showSite && (
+      <>
         <span class="visitor-count-frag">共有</span>
         <span class="visitor-count-value" data-visitor-site>—</span>
         <span class="visitor-count-frag">人来过</span>

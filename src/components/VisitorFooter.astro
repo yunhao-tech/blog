@@ -2,8 +2,8 @@
 import VisitorCount from './VisitorCount.astro';
 import { ANALYTICS_ENABLED } from '../config/analytics';
 interface Props {
-  /** page: 只显示本页人数；both: 本页 + 全站 */
-  mode?: 'page' | 'both';
+  /** page: 只显示本页人数；site: 只显示全站人数；both: 本页 + 全站 */
+  mode?: 'page' | 'site' | 'both';
 }
 const { mode = 'page' } = Astro.props;
 ---

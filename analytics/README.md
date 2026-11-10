@@ -58,7 +58,7 @@ New repository variable，名字 `ANALYTICS_ENDPOINT`，值是 Worker 地址。
 
 ## 数字显示在哪
 
-- 首页：`有 N 人来过 · 共有 M 人来过`
+- 首页：`共有 M 人来过`（只显示全站人数）
 - 列表页 / Archive：`有 N 人来过`
 - 文章页：正文末尾、`回到目录` 下面一行
 
